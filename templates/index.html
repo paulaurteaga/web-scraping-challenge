@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Mars facts</title>
+</head>
+<body>
+    <div class="jumbotron">
+        <h1><Mission to mars</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h2>{{mars.Header}}</h2>
+            <p>{{mars.Description}}</p>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>Mars Images</h2>
+                <img class="col-xs-12" src={{mars.Image}}>
+            </div>
+            <div class="col-sm-4">
+                <h3>Current weather on mars</h3>
+                <p>{{mars.Weather}}</p>
+            </div>
+            <div>
+                <h3>Mars Facts</h3>
+                {{mars.Facts}}
+            </div>      
+        </div>
+        <div class="row">
+            <h4>Mars Hemisphere</h4>
+                {% for hemisphere in mars.Hemispheres %}
+                <img class="col-xs-12" src={{hemisphere.img_url}}>
+                <h5>{{hemisphere.title}}</h5>
+                {% endfor %}
+        </div>
+        
+    </div>
+</body>
+</html>
