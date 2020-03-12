@@ -4,6 +4,9 @@ from splinter import Browser
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
 
 def scrape():
     executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
@@ -27,11 +30,21 @@ def scrape():
     entire_url="https://www.jpl.nasa.gov" + img_url
 
     ## Mars Weather
-    url_weather = 'https://twitter.com/marswxreport?lang=en'
-    browser.visit(url_weather)
-    time.sleep(4)
-    html_weather = browser.html
-    soup_weather = BeautifulSoup(html_weather, 'html.parser')
+
+    url = "https://twitter.com/marswxreport?lang=en"
+    options = Options()
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(chrome_options=options)
+    driver.get(url)
+    time.sleep(3)
+    page = driver.page_source
+    driver.quit()
+    #url_weather = 'https://twitter.com/marswxreport?lang=en'
+    #browser.visit(url_weather)
+    #time.sleep(4)
+    #html_weather = browser.html
+    soup_weather = BeautifulSoup(page, 'html.parser')
     print(soup_weather)
     post=soup_weather.find('div',class_="ProfileHeaderCard").p
     text=post.text
