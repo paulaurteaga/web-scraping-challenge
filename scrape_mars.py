@@ -4,6 +4,7 @@ from splinter import Browser
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -31,21 +32,9 @@ def scrape():
 
     ## Mars Weather
 
-    url = "https://twitter.com/marswxreport?lang=en"
-    options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    driver = webdriver.Chrome(chrome_options=options)
-    driver.get(url)
-    time.sleep(3)
-    page = driver.page_source
-    driver.quit()
-    #url_weather = 'https://twitter.com/marswxreport?lang=en'
-    #browser.visit(url_weather)
-    #time.sleep(4)
-    #html_weather = browser.html
-    soup_weather = BeautifulSoup(page, 'html.parser')
-    print(soup_weather)
+    url="https://twitter.com/marswxreport?lang=en"
+    response = requests.get(url)
+    soup_weather = BeautifulSoup(response.text, 'html.parser')
     post=soup_weather.find('div',class_="ProfileHeaderCard").p
     text=post.text
 
@@ -58,13 +47,23 @@ def scrape():
     browser.visit(url_hemi)
     html_hemi = browser.html
     soup_hemi = BeautifulSoup(html_hemi, 'html.parser')
-    results=soup_hemi.find_all('div',class_='item')
-    base_url="https://astrogeology.usgs.gov"
+    #results=soup_hemi.find_all('img',class_='thumb')
+    results=soup_hemi.find_all('h3')
+    base_url="https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/"
     images_url=[]
     titles=[]
+    end="tif/full.jpg"
     for result in results:
-        titles.append(result.h3.text)
-        images_url.append( base_url+result.a['href'])
+        titles.append(result.text)
+        #titles.append(result['alt'])
+        #images_url.append( result['src']+end)
+    count=0
+    for thumb in titles:
+        browser.find_by_css('img.thumb')[count].click()
+        #images_url.append(browser.find_by_text('Sample')['href'])
+        images_url.append(browser.find_by_text('Sample')['href'])
+        browser.back()
+        count=count+1
     hemisphere_image_urls = []
     counter = 0
     for x in images_url:

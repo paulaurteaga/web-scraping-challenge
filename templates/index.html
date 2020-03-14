@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Mars facts</title>
 </head>
 <body>
     <div class="jumbotron">
         <h1><Mission to mars</h1>
+            <a href="./scrape" class="btn btn-primary" role="button">Scrape Mars Data</a>
     </div>
     <div class="container">
         <div class="row">
@@ -17,23 +20,29 @@
         </div>
         <div class="row">
             <div class="col-sm-8">
+                <div class="panel">
                 <h2>Mars Images</h2>
-                <img class="col-xs-12" src={{mars.Image}}>
+                <img class="col-xs-12 principal" src={{mars.Image}} >
+                </div>
             </div>
             <div class="col-sm-4">
-                <h3>Current weather on mars</h3>
-                <p>{{mars.Weather}}</p>
+                <div class="col-sm-12">
+                    <h3>Current weather on mars</h3>
+                    <p>{{mars.Weather}}</p>
+                </div>
             </div>
             <div>
                 <h3>Mars Facts</h3>
-                {{mars.Facts}}
+                {{mars.Facts | safe}}
             </div>      
         </div>
         <div class="row">
             <h4>Mars Hemisphere</h4>
                 {% for hemisphere in mars.Hemispheres %}
+                <figure class="col-xs-6">
                 <img class="col-xs-12" src={{hemisphere.img_url}}>
-                <h5>{{hemisphere.title}}</h5>
+                <figcaption><h5 align="center">{{hemisphere.title}}</h5></figcaption>
+                </figure>
                 {% endfor %}
         </div>
         
