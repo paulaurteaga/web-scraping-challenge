@@ -79,6 +79,6 @@ def scrape():
 
     return dict;
 
-if __name__ == "__main__":
-    scrape()
+#if __name__ == "__main__":
+    #scrape()
 
